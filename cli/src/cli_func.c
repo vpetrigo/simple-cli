@@ -8,5 +8,7 @@
 #include "cli_func.h"
 #include "cli_help.h"
 
+#include <stdlib.h>
+
 const CLI_Func_t cli_functions[] = {{"help", cli_help, "print help message"},
                                     {NULL, NULL, NULL}};
