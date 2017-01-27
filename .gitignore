@@ -1,0 +1,7 @@
+# Eclipse output folders
+Debug/*
+Release/*
+
+# Eclipse work files
+.*project
+.settings
