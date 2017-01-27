@@ -8,6 +8,8 @@
 #ifndef CLI_INC_CLI_INTERPRETER_H_
 #define CLI_INC_CLI_INTERPRETER_H_
 
+#include "cli_func.h"
+
 #include <stddef.h>
 #include <stdint.h>
 

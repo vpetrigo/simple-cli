@@ -15,6 +15,9 @@ static void command_parser(const char *line, size_t size, uint16_t *cmd,
                            size_t *cmd_len);
 
 static inline uint8_t is_cmd_end(const char ch);
+static inline bool cmp_command_names(const char *line,
+                                     const uint16_t *const index,
+                                     const char *cmd);
 
 uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
                         size_t *cmd_len)
@@ -24,6 +27,15 @@ uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
   }
 
   command_parser(line, size, cmd, cmd_len);
+
+  if (*cmd_len > 0) {
+    for (const CLI_Func_t *ptr = cli_functions; ptr->cli_handler != NULL;
+         ++ptr) {
+      if (cmp_command_names(line, cmd, ptr->func_name)) {
+        ptr->cli_handler(0, NULL);
+      }
+    }
+  }
 
   return COMMAND_PARSED;
 }
@@ -71,4 +83,22 @@ static inline uint8_t is_cmd_end(const char ch)
   }
 
   return 0;
+}
+
+static inline bool cmp_command_names(const char *line,
+                                     const uint16_t *const index,
+                                     const char *cmd)
+{
+  const char *cmd_line_start = line + *index;
+  const char *cmd_line_end = line + *(index + 1);
+
+  while (cmd_line_start != cmd_line_end && *cmd &&
+         *cmd_line_start++ == *cmd++) {
+  }
+
+  if (cmd_line_start == cmd_line_end && *cmd == '\0') {
+    return true;
+  }
+
+  return false;
 }
