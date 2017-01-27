@@ -14,7 +14,7 @@
 
 int main(void)
 {
-  const char line[] = "    help\n         2       ";
+  const char line[] = "    test\n         2       ";
   const size_t cmd_indexes_size = 8;
   uint16_t cmd_indexes[cmd_indexes_size];
   size_t cmd_len = 0;

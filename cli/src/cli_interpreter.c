@@ -29,11 +29,21 @@ uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
   command_parser(line, size, cmd, cmd_len);
 
   if (*cmd_len > 0) {
-    for (const CLI_Func_t *ptr = cli_functions; ptr->cli_handler != NULL;
-         ++ptr) {
+    const CLI_Func_t *ptr = cli_functions;
+
+    while (ptr->cli_handler != NULL) {
       if (cmp_command_names(line, cmd, ptr->func_name)) {
         ptr->cli_handler(0, NULL);
+
+        break;
       }
+
+      ++ptr;
+    }
+
+    if (ptr->cli_handler == NULL) {
+      // TODO: print message that command is not appropriate
+      cli_functions->cli_handler(0, NULL);
     }
   }
 
