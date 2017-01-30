@@ -8,7 +8,8 @@
 
 #include <stdint.h>
 
-typedef void (*cli_handler_ptr)(const uint8_t argc, char *argv[]);
+typedef void (*cli_handler_ptr)(const uint8_t argc, const char *buf,
+                                const uint16_t *argv_index);
 
 typedef struct {
   const char *func_name;
