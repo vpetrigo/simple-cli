@@ -6,6 +6,7 @@
  */
 
 #include "cli_interpreter.h"
+#include "cli_utils.h"
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -42,7 +43,7 @@ uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
     }
 
     if (ptr->cli_handler == NULL) {
-      // TODO: print message that command is not appropriate
+      cli_utils_print("Command is not supported\n");
       cli_functions->cli_handler(0, NULL);
     }
   }
