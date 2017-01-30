@@ -34,7 +34,7 @@ uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
 
     while (ptr->cli_handler != NULL) {
       if (cmp_command_names(line, cmd, ptr->func_name)) {
-        ptr->cli_handler(0, NULL, cmd);
+        ptr->cli_handler(*cmd_len, line, cmd);
 
         break;
       }
