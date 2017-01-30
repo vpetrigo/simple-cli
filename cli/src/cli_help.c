@@ -15,7 +15,7 @@ static const char help_msg[] = {
     "CLI v0.0\n"
     "Commands:\n"};
 
-void cli_help(uint8_t argc, char *argv[])
+void cli_help(uint8_t argc, const char *buf, const uint16_t *argv_indexes)
 {
   cli_utils_print(help_msg);
 

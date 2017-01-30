@@ -34,7 +34,7 @@ uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
 
     while (ptr->cli_handler != NULL) {
       if (cmp_command_names(line, cmd, ptr->func_name)) {
-        ptr->cli_handler(0, NULL);
+        ptr->cli_handler(0, NULL, cmd);
 
         break;
       }
@@ -44,7 +44,7 @@ uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
 
     if (ptr->cli_handler == NULL) {
       cli_utils_print("Command is not supported\n");
-      cli_functions->cli_handler(0, NULL);
+      cli_functions->cli_handler(0, NULL, cmd);
     }
   }
 

@@ -10,6 +10,6 @@
 
 #include <stdint.h>
 
-void cli_help(uint8_t argc, char *argv[]);
+void cli_help(uint8_t argc, const char *buf, const uint16_t *argv_index);
 
 #endif /* CLI_INC_CLI_HELP_H_ */
