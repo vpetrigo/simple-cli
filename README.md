@@ -15,6 +15,9 @@ const CLI_Func_t cli_functions[] = {{"help", cli_help, "print help message"},
                                     {NULL, NULL, NULL}};
                                     
 // main.c
+#include "cli_interpreter.h"
+
+#include <stdio.h>
 
 int main() 
 {
