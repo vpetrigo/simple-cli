@@ -10,6 +10,10 @@
 
 #include <stdarg.h>
 
+/**
+ * \brief Helper function that used for output CLI work results
+ * \warning Platform dependent
+ */
 int cli_utils_print(const char *fmt, ...);
 
 #endif /* CLI_INC_CLI_UTILS_H_ */
