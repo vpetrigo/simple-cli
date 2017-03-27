@@ -15,7 +15,10 @@
 static void command_parser(const char *line, size_t size, uint16_t *cmd,
                            size_t *cmd_len);
 
-static inline uint8_t is_cmd_end(const char ch);
+// check whether @ch is LF or NULL character
+static inline bool is_cmd_end(const char ch);
+// compare a command name stored in @line with a list of supported
+// CLI functions
 static inline bool cmp_command_names(const char *line,
                                      const uint16_t *const index,
                                      const char *cmd);
@@ -23,15 +26,17 @@ static inline bool cmp_command_names(const char *line,
 uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
                         size_t *cmd_len)
 {
+  // sanity check that input parameters might be processed
   if (line == NULL || size == 0 || cmd == NULL || cmd_len == NULL) {
     return BAD_REQUEST;
   }
-
+  // parse @line string that might store a command with arguments
   command_parser(line, size, cmd, cmd_len);
-
+  // if @line stores reasonable command, process it
   if (*cmd_len > 0) {
     const CLI_Func_t *ptr = cli_functions;
-
+    // traverse through the supported commands table and
+    // compare the supported functions' name with one from @line
     while (ptr->cli_handler != NULL) {
       if (cmp_command_names(line, cmd, ptr->func_name)) {
         ptr->cli_handler(*cmd_len, line, cmd);
@@ -41,7 +46,7 @@ uint8_t cli_interpreter(const char *line, size_t size, uint16_t *cmd,
 
       ++ptr;
     }
-
+    // met invalid command
     if (ptr->cli_handler == NULL) {
       cli_utils_print("Command is not supported\n");
       cli_functions->cli_handler(0, NULL, cmd);
@@ -55,7 +60,7 @@ static void command_parser(const char *line, size_t size, uint16_t *cmd,
                            size_t *cmd_len)
 {
   uint16_t pos = 0;
-
+  // skip leading whitespace characters
   while (pos < size && isspace(line[pos])) {
     ++pos;
   }
@@ -63,37 +68,39 @@ static void command_parser(const char *line, size_t size, uint16_t *cmd,
   bool is_first_ch = true;
 
   while (pos != size && !is_cmd_end(line[pos])) {
-    // save position in a input line where
+    // save position in an input line where
     // command started
     if (is_first_ch) {
       ++(*cmd_len);
       *cmd++ = pos;
       is_first_ch = false;
     }
-
+    // space delimiter between command/arguments
     if (line[pos] == ' ') {
+      // save end position of a command/argument in @cmd buffer
       *cmd++ = pos;
       is_first_ch = true;
-
+      // skip intermediate whitespaces
       while (pos < size && line[pos] == ' ') {
         ++pos;
       }
     }
     else {
+      // traverse through characters inside a command/argument
       ++pos;
     }
   }
-
+  // reach the end of the @line
   *cmd++ = pos;
 }
 
-static inline uint8_t is_cmd_end(const char ch)
+static inline bool is_cmd_end(const char ch)
 {
   if (ch == '\n' || ch == '\0') {
-    return 1;
+    return true;
   }
 
-  return 0;
+  return false;
 }
 
 static inline bool cmp_command_names(const char *line,
