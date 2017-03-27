@@ -15,6 +15,10 @@ static const char help_msg[] = {
     "CLI v0.0\n"
     "Commands:\n"};
 
+/**
+ * \detail Prints help message with a list of all supported CLI functions
+ * that currently stored in the **cli_functions** array
+ */
 void cli_help(uint8_t argc, const char *buf, const uint16_t *argv_indexes)
 {
   cli_utils_print(help_msg);
