@@ -22,7 +22,7 @@ static const char help_msg[] = {
 void cli_help(uint8_t argc, const char *buf, const uint16_t *argv_indexes)
 {
   cli_utils_print(help_msg);
-
+  // traverse through all available functions and print "command + description"
   for (const CLI_Func_t *ptr = cli_functions; ptr->func_name != NULL; ++ptr) {
     cli_utils_print(" - %s\t-\t%s\n", ptr->func_name, ptr->func_description);
   }
